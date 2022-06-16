@@ -17,6 +17,11 @@ public class SQLConnector {
 
     private SQLConnector(){}
 
+    /**
+     * Try to connect to database if not connected yet.
+     * Then return the current state of connection.
+     * @return current state of connection
+     */
     public Connection connect(){
         try {
             if (connection == null || connection.isClosed()){
@@ -26,6 +31,10 @@ public class SQLConnector {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return connection;
+    }
+
+    public Connection getConnection(){
         return connection;
     }
 
