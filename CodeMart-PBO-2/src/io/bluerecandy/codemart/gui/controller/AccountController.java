@@ -21,7 +21,7 @@ public class AccountController {
         return accountsService.login(email, password);
     }
 
-    public boolean register(String email, String name, String password){
+    public boolean register(String email, String name, char[] password){
         return accountsService.register(email, name, password);
     }
 

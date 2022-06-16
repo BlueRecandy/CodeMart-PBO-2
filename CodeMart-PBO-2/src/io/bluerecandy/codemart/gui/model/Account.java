@@ -4,7 +4,7 @@ public class Account {
 
     private int id;
     private String email;
-    private String password;
+    private char[] password;
     private boolean isLoggedIn;
 
     public boolean isLoggedIn() {
@@ -31,11 +31,11 @@ public class Account {
         this.email = email;
     }
 
-    public String getPassword() {
+    public char[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(char[] password) {
         this.password = password;
     }
 }
