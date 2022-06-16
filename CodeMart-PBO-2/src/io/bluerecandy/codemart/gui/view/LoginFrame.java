@@ -5,6 +5,7 @@ package io.bluerecandy.codemart.gui.view;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import io.bluerecandy.codemart.gui.controller.AccountController;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 import io.bluerecandy.codemart.gui.sql.SQLInitialization;
 
@@ -58,6 +59,11 @@ public class LoginFrame extends javax.swing.JFrame {
         labelLoginFramePassword.setText("Password");
 
         btnLoginFrameLogin.setText("Login");
+        btnLoginFrameLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginFrameLoginActionPerformed(evt);
+            }
+        });
 
         btnLoginFrameRegister.setText("Register");
 
@@ -134,6 +140,14 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_formWindowClosed
+
+    private void btnLoginFrameLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginFrameLoginActionPerformed
+        // TODO add your handling code here:
+        String email = textFieldLoginFrameEmail.getText();
+        char[] password = passwordFieldLoginFramePassword.getPassword();
+        
+        AccountController.getInstance().login(email, password);
+    }//GEN-LAST:event_btnLoginFrameLoginActionPerformed
 
     /**
      * @param args the command line arguments

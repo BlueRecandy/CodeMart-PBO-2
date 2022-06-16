@@ -17,11 +17,11 @@ public class AccountController {
         accountsService = AccountsService.getInstance();
     }
 
-    public boolean login(String email, String password){
+    public boolean login(String email, final char[] password){
         return accountsService.login(email, password);
     }
 
-    public boolean register(String email, String name, String password){
+    public boolean register(String email, String name, char[] password){
         return accountsService.register(email, name, password);
     }
 
