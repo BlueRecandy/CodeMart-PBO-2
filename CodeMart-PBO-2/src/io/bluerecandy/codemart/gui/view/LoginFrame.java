@@ -6,9 +6,12 @@ package io.bluerecandy.codemart.gui.view;
  */
 
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
+import io.bluerecandy.codemart.gui.sql.SQLInitialization;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,10 +44,16 @@ public class LoginFrame extends javax.swing.JFrame {
         textFieldLoginFrameEmail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         labelLoginFrameEmail.setText("Email");
-
-        passwordFieldLoginFramePassword.setText("jPasswordField1");
 
         labelLoginFramePassword.setText("Password");
 
@@ -106,6 +115,25 @@ public class LoginFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        
+        SQLInitialization.getInstance().init();
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        SQLConnector connector = SQLConnector.getInstance();
+        if (connector.isConnected()){
+            try {
+                connector.getConnection().close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
