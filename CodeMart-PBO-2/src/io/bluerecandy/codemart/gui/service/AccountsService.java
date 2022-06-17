@@ -5,6 +5,8 @@ import io.bluerecandy.codemart.gui.model.User;
 import io.bluerecandy.codemart.gui.model.UserProducts;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 import io.bluerecandy.codemart.gui.utils.IdUtility;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,7 +88,18 @@ public class AccountsService {
             user.setAccount(account);
 
             // TODO Insert account and user to db
-            return true;
+            Connection connection = SQLConnector.getInstance().connect();
+            try{
+                String query = "INSERT INTO 'accounts'('email', 'password') VALUES(?,?)";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, email);
+                statement.setString(2, String.valueOf(password));
+                statement.executeUpdate();
+                return true;
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+            
         }
         return false;
     }
