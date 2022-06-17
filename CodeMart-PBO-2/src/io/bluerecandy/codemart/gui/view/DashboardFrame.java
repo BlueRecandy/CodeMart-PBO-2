@@ -5,6 +5,7 @@
 package io.bluerecandy.codemart.gui.view;
 
 import io.bluerecandy.codemart.gui.controller.ProductController;
+import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.model.Product;
 
 import javax.swing.*;
@@ -16,11 +17,13 @@ import java.util.List;
  */
 public class DashboardFrame extends javax.swing.JFrame {
 
+    private Account activeAccount;
     /**
      * Creates new form ProductBrowseFrame
      */
-    public DashboardFrame() {
+    public DashboardFrame(Account activeAccount) {
         initComponents();
+        this.activeAccount = activeAccount;
     }
 
     /**
@@ -381,7 +384,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardFrame().setVisible(true);
+                new DashboardFrame(null).setVisible(true);
             }
         });
     }

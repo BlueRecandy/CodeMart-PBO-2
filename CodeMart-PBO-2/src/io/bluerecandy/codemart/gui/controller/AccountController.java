@@ -1,5 +1,6 @@
 package io.bluerecandy.codemart.gui.controller;
 
+import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.service.AccountsService;
 
 public class AccountController {
@@ -17,8 +18,14 @@ public class AccountController {
         accountsService = AccountsService.getInstance();
     }
 
-    public boolean login(String email, final char[] password){
-        return accountsService.login(email, password);
+    public Account login(String email, final char[] password){
+        boolean isSuccess = accountsService.login(email, password);
+
+        if (isSuccess){
+            return accountsService.getAccountByEmail(email);
+        }
+
+        return null;
     }
 
     public boolean register(String email, String name, char[] password){

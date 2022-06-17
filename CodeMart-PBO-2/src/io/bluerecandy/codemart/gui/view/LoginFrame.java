@@ -6,6 +6,7 @@ package io.bluerecandy.codemart.gui.view;
  */
 
 import io.bluerecandy.codemart.gui.controller.AccountController;
+import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 import io.bluerecandy.codemart.gui.sql.SQLInitialization;
 
@@ -151,7 +152,14 @@ public class LoginFrame extends javax.swing.JFrame {
         String email = textFieldLoginFrameEmail.getText();
         char[] password = passwordFieldLoginFramePassword.getPassword();
         
-        AccountController.getInstance().login(email, password);
+        Account account = AccountController.getInstance().login(email, password);
+
+        if (account != null){
+            this.dispose();
+            new DashboardFrame(account).setVisible(true);
+        }else{
+            // TODO Add feedback if something wrong
+        }
     }//GEN-LAST:event_btnLoginFrameLoginActionPerformed
 
     private void btnLoginFrameRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginFrameRegisterActionPerformed

@@ -64,12 +64,14 @@ public class AccountsService {
         if (account != null) {
             if (!account.isLoggedIn() && Arrays.equals(account.getPassword(), password)) {
                 // TODO Set account logged in state to true
-                System.out.println(account);
+
                 // TODO Update account data to db
                 return true;
             } else if (account.isLoggedIn()) {
                 // TODO Send alert if account has been logged in
             }
+        }else{
+            // TODO Send feedback if account not found
         }
         return false;
     }
