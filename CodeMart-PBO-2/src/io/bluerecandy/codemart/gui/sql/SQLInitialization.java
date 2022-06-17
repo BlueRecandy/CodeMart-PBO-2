@@ -32,7 +32,10 @@ public class SQLInitialization {
             "\tid INT PRIMARY KEY AUTO_INCREMENT,\n" +
             "    name VARCHAR(36) NOT NULL,\n" +
             "    version VARCHAR(8) NOT NULL,\n" +
+            "\tdescription VARCHAR(255) NOT NULL,\n" +
+            "\tprice INT NOT NULL DEFAULT 0,\n" +
             "    owner_id INT NOT NULL,\n" +
+            "\tfile BLOB,\n" +
             "    CONSTRAINT FK_products_accounts_id FOREIGN KEY(owner_id) REFERENCES accounts(id) ON DELETE CASCADE\n" +
             ");";
 
