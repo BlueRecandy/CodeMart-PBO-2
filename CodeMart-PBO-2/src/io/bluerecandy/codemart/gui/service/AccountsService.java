@@ -92,7 +92,7 @@ public class AccountsService {
             // TODO Insert account and user to db
             Connection connection = SQLConnector.getInstance().connect();
             try{
-                String query = "INSERT INTO 'accounts'('email', 'password') VALUES(?,?)";
+                String query = "INSERT INTO accounts(email, password) VALUES(?,?)";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, email);
                 statement.setString(2, String.valueOf(password));
