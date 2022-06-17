@@ -156,7 +156,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         if (account != null){
             this.dispose();
-            new DashboardFrame(account).setVisible(true);
+            new DashboardFrame().setVisible(true);
         }else{
             // TODO Add feedback if something wrong
         }

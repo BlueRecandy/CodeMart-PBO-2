@@ -17,13 +17,11 @@ import java.util.List;
  */
 public class DashboardFrame extends javax.swing.JFrame {
 
-    private Account activeAccount;
     /**
      * Creates new form ProductBrowseFrame
      */
-    public DashboardFrame(Account activeAccount) {
+    public DashboardFrame() {
         initComponents();
-        this.activeAccount = activeAccount;
     }
 
     /**
@@ -384,7 +382,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardFrame(null).setVisible(true);
+                new DashboardFrame().setVisible(true);
             }
         });
     }
