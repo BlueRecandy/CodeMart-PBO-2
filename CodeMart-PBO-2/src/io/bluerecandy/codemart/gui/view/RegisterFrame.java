@@ -48,6 +48,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         labelRegisterFrameParagraf = new javax.swing.JLabel();
         passwordFieldRegisterFramePassword = new javax.swing.JPasswordField();
         passwordFieldRegisterFrameRetypePassword = new javax.swing.JPasswordField();
+        buttonRegisterFrameBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +76,13 @@ public class RegisterFrame extends javax.swing.JFrame {
         labelRegisterFrameParagraf.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelRegisterFrameParagraf.setText("Please insert your data:");
 
+        buttonRegisterFrameBack.setText("Back");
+        buttonRegisterFrameBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegisterFrameBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,9 +92,6 @@ public class RegisterFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(84, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(buttonRegisterFrameRegister)
-                        .addGap(55, 55, 55))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelRegisterFrameName)
@@ -99,7 +104,12 @@ public class RegisterFrame extends javax.swing.JFrame {
                             .addComponent(textFieldRegisterFrameEmail)
                             .addComponent(passwordFieldRegisterFramePassword)
                             .addComponent(passwordFieldRegisterFrameRetypePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(80, 80, 80))))
+                        .addGap(80, 80, 80))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(buttonRegisterFrameBack, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(buttonRegisterFrameRegister)
+                        .addGap(55, 55, 55))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +135,9 @@ public class RegisterFrame extends javax.swing.JFrame {
                     .addComponent(passwordFieldRegisterFrameRetypePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRegisterFrameRetypePassword))
                 .addGap(63, 63, 63)
-                .addComponent(buttonRegisterFrameRegister)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonRegisterFrameRegister)
+                    .addComponent(buttonRegisterFrameBack))
                 .addGap(60, 60, 60))
         );
 
@@ -165,6 +177,11 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonRegisterFrameRegisterActionPerformed
 
+    private void buttonRegisterFrameBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterFrameBackActionPerformed
+        this.dispose();
+        new LoginFrame().setVisible(true);
+    }//GEN-LAST:event_buttonRegisterFrameBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -201,6 +218,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonRegisterFrameBack;
     private javax.swing.JButton buttonRegisterFrameRegister;
     private javax.swing.JLabel labelRegisterFrameEmail;
     private javax.swing.JLabel labelRegisterFrameName;
