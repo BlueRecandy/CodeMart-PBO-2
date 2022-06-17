@@ -66,6 +66,11 @@ public class LoginFrame extends javax.swing.JFrame {
         });
 
         btnLoginFrameRegister.setText("Register");
+        btnLoginFrameRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginFrameRegisterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,6 +153,12 @@ public class LoginFrame extends javax.swing.JFrame {
         
         AccountController.getInstance().login(email, password);
     }//GEN-LAST:event_btnLoginFrameLoginActionPerformed
+
+    private void btnLoginFrameRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginFrameRegisterActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new RegisterFrame().setVisible(true);
+    }//GEN-LAST:event_btnLoginFrameRegisterActionPerformed
 
     /**
      * @param args the command line arguments
