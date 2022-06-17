@@ -37,12 +37,29 @@ public class DashboardFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listDashboardFrameBrowseProducts = new javax.swing.JList<>();
         labelDashboardFrameBrowseTitle = new javax.swing.JLabel();
-        labelDashboardFrameBrowseDescription = new javax.swing.JLabel();
         labelDashboardFrameBrowsePrice = new javax.swing.JLabel();
         buttonDashboardFrameBrowseDownload = new javax.swing.JButton();
         buttonDashboardFrameBrowsePurchase = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        textAreaDashboardFrameBrowseDescription = new javax.swing.JTextArea();
         panelDashboardFrameYourProducts = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         panelDashboardFrameUploadProduct = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         panelDashboardFrameAccount = new javax.swing.JPanel();
         labelDashboardFrameAccountName = new javax.swing.JLabel();
         labelDashboardFrameAccountCoin = new javax.swing.JLabel();
@@ -57,11 +74,14 @@ public class DashboardFrame extends javax.swing.JFrame {
         });
 
         listDashboardFrameBrowseProducts.setModel(new DefaultListModel());
+        listDashboardFrameBrowseProducts.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listDashboardFrameBrowseProductsValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listDashboardFrameBrowseProducts);
 
         labelDashboardFrameBrowseTitle.setText("Product Title");
-
-        labelDashboardFrameBrowseDescription.setText("Description");
 
         labelDashboardFrameBrowsePrice.setText("Price:");
 
@@ -70,6 +90,12 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         buttonDashboardFrameBrowsePurchase.setText("Purchase");
         buttonDashboardFrameBrowsePurchase.setEnabled(false);
+
+        textAreaDashboardFrameBrowseDescription.setColumns(20);
+        textAreaDashboardFrameBrowseDescription.setLineWrap(true);
+        textAreaDashboardFrameBrowseDescription.setRows(5);
+        textAreaDashboardFrameBrowseDescription.setEnabled(false);
+        jScrollPane4.setViewportView(textAreaDashboardFrameBrowseDescription);
 
         javax.swing.GroupLayout panelDashboardFrameBrowseLayout = new javax.swing.GroupLayout(panelDashboardFrameBrowse);
         panelDashboardFrameBrowse.setLayout(panelDashboardFrameBrowseLayout);
@@ -80,14 +106,14 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelDashboardFrameBrowseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDashboardFrameBrowseTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelDashboardFrameBrowsePrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelDashboardFrameBrowseLayout.createSequentialGroup()
                         .addComponent(buttonDashboardFrameBrowseDownload)
                         .addGap(18, 18, 18)
                         .addComponent(buttonDashboardFrameBrowsePurchase)
-                        .addGap(0, 227, Short.MAX_VALUE))
-                    .addComponent(labelDashboardFrameBrowseTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelDashboardFrameBrowseDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelDashboardFrameBrowsePrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelDashboardFrameBrowseLayout.setVerticalGroup(
@@ -98,8 +124,8 @@ public class DashboardFrame extends javax.swing.JFrame {
                     .addGroup(panelDashboardFrameBrowseLayout.createSequentialGroup()
                         .addComponent(labelDashboardFrameBrowseTitle)
                         .addGap(18, 18, 18)
-                        .addComponent(labelDashboardFrameBrowseDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(labelDashboardFrameBrowsePrice))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
@@ -111,28 +137,113 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Browse", panelDashboardFrameBrowse);
 
+        jList1.setModel(new DefaultListModel());
+        jScrollPane3.setViewportView(jList1);
+
+        jButton3.setText("Save");
+        jButton3.setEnabled(false);
+
+        jButton4.setText("Remove");
+        jButton4.setEnabled(false);
+
+        jButton5.setText("Cancel");
+        jButton5.setEnabled(false);
+
         javax.swing.GroupLayout panelDashboardFrameYourProductsLayout = new javax.swing.GroupLayout(panelDashboardFrameYourProducts);
         panelDashboardFrameYourProducts.setLayout(panelDashboardFrameYourProductsLayout);
         panelDashboardFrameYourProductsLayout.setHorizontalGroup(
             panelDashboardFrameYourProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGroup(panelDashboardFrameYourProductsLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(36, 36, 36))
         );
         panelDashboardFrameYourProductsLayout.setVerticalGroup(
             panelDashboardFrameYourProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
+            .addGroup(panelDashboardFrameYourProductsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDashboardFrameYourProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelDashboardFrameYourProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton3)
+                        .addComponent(jButton4)
+                        .addComponent(jButton5))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Your Products", panelDashboardFrameYourProducts);
+
+        jLabel1.setText("Product Title");
+
+        jLabel2.setText("Price");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jLabel3.setText("Description");
+
+        jLabel4.setText("Version");
+
+        jButton1.setText("Upload Product");
+
+        jButton2.setText("Clear");
 
         javax.swing.GroupLayout panelDashboardFrameUploadProductLayout = new javax.swing.GroupLayout(panelDashboardFrameUploadProduct);
         panelDashboardFrameUploadProduct.setLayout(panelDashboardFrameUploadProductLayout);
         panelDashboardFrameUploadProductLayout.setHorizontalGroup(
             panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
+                        .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane2))
+                .addGap(52, 52, 52))
         );
         panelDashboardFrameUploadProductLayout.setVerticalGroup(
             panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
+            .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(25, 25, 25))
         );
 
         jTabbedPane1.addTab("Upload Product", panelDashboardFrameUploadProduct);
@@ -157,29 +268,27 @@ public class DashboardFrame extends javax.swing.JFrame {
             .addGroup(panelDashboardFrameAccountLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelDashboardFrameAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDashboardFrameAccountLayout.createSequentialGroup()
-                        .addGroup(panelDashboardFrameAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(labelDashboardFrameAccountName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                            .addComponent(labelDashboardFrameAccountCoin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDashboardFrameAccountLayout.createSequentialGroup()
-                        .addComponent(buttonDashboardFrameAccountTopup)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 454, Short.MAX_VALUE)
-                        .addComponent(buttonDashboardFrameAccountLogout)))
-                .addContainerGap())
+                    .addComponent(labelDashboardFrameAccountName, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDashboardFrameAccountCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonDashboardFrameAccountTopup))
+                .addContainerGap(383, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDashboardFrameAccountLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonDashboardFrameAccountLogout)
+                .addGap(33, 33, 33))
         );
         panelDashboardFrameAccountLayout.setVerticalGroup(
             panelDashboardFrameAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDashboardFrameAccountLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(labelDashboardFrameAccountName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(labelDashboardFrameAccountCoin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
-                .addGroup(panelDashboardFrameAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonDashboardFrameAccountLogout)
-                    .addComponent(buttonDashboardFrameAccountTopup))
-                .addGap(35, 35, 35))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonDashboardFrameAccountTopup)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addComponent(buttonDashboardFrameAccountLogout)
+                .addGap(38, 38, 38))
         );
 
         jTabbedPane1.addTab("Account", panelDashboardFrameAccount);
@@ -220,6 +329,26 @@ public class DashboardFrame extends javax.swing.JFrame {
         this.dispose();
         new LoginFrame().setVisible(true);
     }//GEN-LAST:event_buttonDashboardFrameAccountLogoutActionPerformed
+
+    private void listDashboardFrameBrowseProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listDashboardFrameBrowseProductsValueChanged
+        // TODO add your handling code here:
+        Product product = listDashboardFrameBrowseProducts.getSelectedValue();
+        if (product != null){
+            labelDashboardFrameBrowseTitle.setText(product.getName());
+            labelDashboardFrameBrowsePrice.setText("Price: " + product.getPrice());
+            textAreaDashboardFrameBrowseDescription.setText(product.getDescription());
+            
+            // TODO Check if user able to download
+            
+            // TODO Check if user able to purchase
+        }else{
+            labelDashboardFrameBrowseTitle.setText("Product Title");
+            labelDashboardFrameBrowsePrice.setText("Price:");
+            textAreaDashboardFrameBrowseDescription.setText("");
+            
+            // TODO Reset download and purchase button state to disabled
+        }
+    }//GEN-LAST:event_listDashboardFrameBrowseProductsValueChanged
 
     /**
      * @param args the command line arguments
@@ -262,11 +391,27 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonDashboardFrameAccountTopup;
     private javax.swing.JButton buttonDashboardFrameBrowseDownload;
     private javax.swing.JButton buttonDashboardFrameBrowsePurchase;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JList<Product> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel labelDashboardFrameAccountCoin;
     private javax.swing.JLabel labelDashboardFrameAccountName;
-    private javax.swing.JLabel labelDashboardFrameBrowseDescription;
     private javax.swing.JLabel labelDashboardFrameBrowsePrice;
     private javax.swing.JLabel labelDashboardFrameBrowseTitle;
     private javax.swing.JList<Product> listDashboardFrameBrowseProducts;
@@ -274,5 +419,6 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelDashboardFrameBrowse;
     private javax.swing.JPanel panelDashboardFrameUploadProduct;
     private javax.swing.JPanel panelDashboardFrameYourProducts;
+    private javax.swing.JTextArea textAreaDashboardFrameBrowseDescription;
     // End of variables declaration//GEN-END:variables
 }
