@@ -5,6 +5,7 @@ package io.bluerecandy.codemart.gui.view;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import io.bluerecandy.codemart.gui.AppCache;
 import io.bluerecandy.codemart.gui.controller.AccountController;
 import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
@@ -157,6 +158,9 @@ public class LoginFrame extends javax.swing.JFrame {
         if (account != null){
             this.dispose();
             new DashboardFrame().setVisible(true);
+
+            AppCache.getInstance().setActiveAccount(account);
+
         }else{
             // TODO Add feedback if something wrong
         }

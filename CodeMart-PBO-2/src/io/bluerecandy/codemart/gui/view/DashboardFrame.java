@@ -4,6 +4,7 @@
  */
 package io.bluerecandy.codemart.gui.view;
 
+import io.bluerecandy.codemart.gui.AppCache;
 import io.bluerecandy.codemart.gui.controller.ProductController;
 import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.model.Product;
@@ -319,16 +320,24 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        // Product Browse
         List<Product> products = ProductController.getInstance().getAllProducts();
 
         DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameBrowseProducts.getModel();
         model.addAll(products);
+        
+        // Account
+        Account activeAccount = AppCache.getInstance().getActiveAccount();
+        labelDashboardFrameAccountName.setText(activeAccount.getEmail());
     }//GEN-LAST:event_formWindowOpened
 
     private void buttonDashboardFrameAccountLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameAccountLogoutActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new LoginFrame().setVisible(true);
+        
+        AppCache.getInstance().setActiveAccount(null);
+        AppCache.getInstance().setActiveUser(null);
     }//GEN-LAST:event_buttonDashboardFrameAccountLogoutActionPerformed
 
     private void listDashboardFrameBrowseProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listDashboardFrameBrowseProductsValueChanged
