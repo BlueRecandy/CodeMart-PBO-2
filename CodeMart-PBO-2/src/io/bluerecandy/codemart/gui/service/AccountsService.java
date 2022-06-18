@@ -1,12 +1,7 @@
 package io.bluerecandy.codemart.gui.service;
 
 import io.bluerecandy.codemart.gui.model.Account;
-import io.bluerecandy.codemart.gui.model.User;
-import io.bluerecandy.codemart.gui.model.UserProducts;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
-import io.bluerecandy.codemart.gui.utils.IdUtility;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,6 +22,8 @@ public class AccountsService {
     private final static String SELECT_ACCOUNT_BY_EMAIL = "SELECT * FROM accounts WHERE email = ?;";
 
     private final static String INSERT_ACCOUNT_REGISTER = "INSERT INTO accounts(email, password) VALUES (?,?);";
+
+    private final static String UPDATE_ACCOUNT_LOGGED = "UPDATE accounts SET is_logged=? WHERE id = ?;";
 
     private AccountsService(){}
 
@@ -74,17 +71,26 @@ public class AccountsService {
         Account account = getAccountByEmail(email);
         if (account != null) {
             if (!account.isLoggedIn() && Arrays.equals(account.getPassword(), password)) {
-                // TODO Set account logged in state to true
-
-                // TODO Update account data to db
+                account.setLoggedIn(true);
+                updateAccount(account.getId(), account.isLoggedIn());
                 return true;
-            } else if (account.isLoggedIn()) {
-                // TODO Send alert if account has been logged in
             }
-        }else{
-            // TODO Send feedback if account not found
         }
         return false;
+    }
+
+    public boolean updateAccount(int id, boolean isLoggedIn){
+        Connection connection = SQLConnector.getInstance().connect();
+        try {
+            PreparedStatement statement = connection.prepareStatement(UPDATE_ACCOUNT_LOGGED);
+            statement.setInt(1, isLoggedIn ? 1 : 0);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean createAccount(String email, char[] password){
