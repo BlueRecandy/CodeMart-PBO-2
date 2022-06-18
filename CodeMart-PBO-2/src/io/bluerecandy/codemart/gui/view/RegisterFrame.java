@@ -9,6 +9,7 @@ import io.bluerecandy.codemart.gui.controller.AccountController;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,6 +48,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         labelRegisterFrameParagraf = new javax.swing.JLabel();
         passwordFieldRegisterFramePassword = new javax.swing.JPasswordField();
         passwordFieldRegisterFrameRetypePassword = new javax.swing.JPasswordField();
+        buttonRegisterFrameBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +76,13 @@ public class RegisterFrame extends javax.swing.JFrame {
         labelRegisterFrameParagraf.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelRegisterFrameParagraf.setText("Please insert your data:");
 
+        buttonRegisterFrameBack.setText("Back");
+        buttonRegisterFrameBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegisterFrameBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,10 +90,9 @@ public class RegisterFrame extends javax.swing.JFrame {
             .addComponent(labelRegisterFrameTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(labelRegisterFrameParagraf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonRegisterFrameRegister)
-                    .addGroup(layout.createSequentialGroup()
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelRegisterFrameName)
                             .addComponent(labelRegisterFrameEmail)
@@ -92,11 +100,16 @@ public class RegisterFrame extends javax.swing.JFrame {
                             .addComponent(labelRegisterFramePassword))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passwordFieldRegisterFramePassword, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textFieldRegisterFrameEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textFieldRegisterFrameName, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                            .addComponent(passwordFieldRegisterFrameRetypePassword))))
-                .addGap(55, 55, 55))
+                            .addComponent(textFieldRegisterFrameName)
+                            .addComponent(textFieldRegisterFrameEmail)
+                            .addComponent(passwordFieldRegisterFramePassword)
+                            .addComponent(passwordFieldRegisterFrameRetypePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(buttonRegisterFrameBack, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(buttonRegisterFrameRegister)
+                        .addGap(55, 55, 55))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,7 +118,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                 .addComponent(labelRegisterFrameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelRegisterFrameParagraf, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textFieldRegisterFrameName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRegisterFrameName))
@@ -121,8 +134,10 @@ public class RegisterFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordFieldRegisterFrameRetypePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRegisterFrameRetypePassword))
-                .addGap(65, 65, 65)
-                .addComponent(buttonRegisterFrameRegister)
+                .addGap(63, 63, 63)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonRegisterFrameRegister)
+                    .addComponent(buttonRegisterFrameBack))
                 .addGap(60, 60, 60))
         );
 
@@ -133,25 +148,39 @@ public class RegisterFrame extends javax.swing.JFrame {
         String name = textFieldRegisterFrameName.getText();
         String email = textFieldRegisterFrameEmail.getText();
         char[] password = passwordFieldRegisterFramePassword.getPassword();
-        String retypePassword = String.valueOf(passwordFieldRegisterFrameRetypePassword.getPassword());
+        char[] retypePassword = passwordFieldRegisterFrameRetypePassword.getPassword();
         
         if(name.equals("")){
             JOptionPane.showMessageDialog(null, "Add A Name");
-        } else if(password.equals("")){
+            return;
+        } if(email.equals("")){
+            JOptionPane.showMessageDialog(null, "Add A Email");
+            return;
+        } if(!email.contains("@")){
+            JOptionPane.showMessageDialog(null, "Add @");
+            return;
+        } if(password.equals("")){
             JOptionPane.showMessageDialog(null, "Add A Password");
-        } else if(!password.equals(retypePassword)){
+            return;
+        } if(!Arrays.equals(password, retypePassword)){
             JOptionPane.showMessageDialog(null, "Retype The Password Again");
+            return;
         }
         
         try{
             boolean register = AccountController.getInstance().register(email, name, password);
             if (register){
                 JOptionPane.showMessageDialog(null, "Register Successfully");
-            }
+            }          
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_buttonRegisterFrameRegisterActionPerformed
+
+    private void buttonRegisterFrameBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterFrameBackActionPerformed
+        this.dispose();
+        new LoginFrame().setVisible(true);
+    }//GEN-LAST:event_buttonRegisterFrameBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,6 +218,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonRegisterFrameBack;
     private javax.swing.JButton buttonRegisterFrameRegister;
     private javax.swing.JLabel labelRegisterFrameEmail;
     private javax.swing.JLabel labelRegisterFrameName;

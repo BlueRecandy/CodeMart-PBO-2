@@ -26,10 +26,9 @@
           <Component id="labelRegisterFrameTitle" max="32767" attributes="0"/>
           <Component id="labelRegisterFrameParagraf" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="58" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="buttonRegisterFrameRegister" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
+              <EmptySpace pref="84" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="labelRegisterFrameName" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="labelRegisterFrameEmail" min="-2" max="-2" attributes="0"/>
@@ -38,14 +37,20 @@
                       </Group>
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="passwordFieldRegisterFramePassword" alignment="1" max="32767" attributes="0"/>
-                          <Component id="textFieldRegisterFrameEmail" alignment="1" max="32767" attributes="0"/>
-                          <Component id="textFieldRegisterFrameName" alignment="0" pref="109" max="32767" attributes="0"/>
-                          <Component id="passwordFieldRegisterFrameRetypePassword" max="32767" attributes="0"/>
+                          <Component id="textFieldRegisterFrameName" max="32767" attributes="0"/>
+                          <Component id="textFieldRegisterFrameEmail" alignment="0" max="32767" attributes="0"/>
+                          <Component id="passwordFieldRegisterFramePassword" alignment="0" max="32767" attributes="0"/>
+                          <Component id="passwordFieldRegisterFrameRetypePassword" alignment="0" min="-2" pref="244" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="buttonRegisterFrameBack" min="-2" pref="74" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="buttonRegisterFrameRegister" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,7 +61,7 @@
               <Component id="labelRegisterFrameTitle" min="-2" pref="50" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="labelRegisterFrameParagraf" min="-2" pref="15" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="textFieldRegisterFrameName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labelRegisterFrameName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -76,8 +81,11 @@
                   <Component id="passwordFieldRegisterFrameRetypePassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labelRegisterFrameRetypePassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-              <Component id="buttonRegisterFrameRegister" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="buttonRegisterFrameRegister" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonRegisterFrameBack" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -138,6 +146,14 @@
     <Component class="javax.swing.JPasswordField" name="passwordFieldRegisterFramePassword">
     </Component>
     <Component class="javax.swing.JPasswordField" name="passwordFieldRegisterFrameRetypePassword">
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonRegisterFrameBack">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Back"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonRegisterFrameBackActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
