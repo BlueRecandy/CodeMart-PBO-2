@@ -22,6 +22,8 @@ public class UsersService {
 
     private final static String INSERT_USER_REGISTER = "INSERT INTO users(id, name) VALUES(?, ?);";
 
+    private final static String UPDATE_USER_COIN = "UPDATE users SET coin=? WHERE id=?;";
+
     private UsersService(){}
 
 
@@ -67,12 +69,21 @@ public class UsersService {
         }
     }
 
-    public void addUserCoin(int id, int amount){
-        User user = getUserById(id);
+    public void addUserCoin(User user, int amount){
         if (user != null){
             user.setCoin(user.getCoin() + amount);
 
             // TODO Update coin at database
+            Connection connection = SQLConnector.getInstance().connect();
+            try {
+                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_COIN);
+                statement.setInt(1, user.getCoin());
+                statement.setInt(2, user.getId());
+
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
