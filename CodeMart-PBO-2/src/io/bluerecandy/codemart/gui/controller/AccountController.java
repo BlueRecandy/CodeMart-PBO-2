@@ -2,6 +2,7 @@ package io.bluerecandy.codemart.gui.controller;
 
 import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.service.AccountsService;
+import io.bluerecandy.codemart.gui.service.UsersService;
 
 public class AccountController {
 
@@ -13,9 +14,11 @@ public class AccountController {
     }
 
     private final AccountsService accountsService;
+    private final UsersService usersService;
 
     private AccountController(){
         accountsService = AccountsService.getInstance();
+        usersService = UsersService.getInstance();
     }
 
     public Account login(String email, final char[] password){
@@ -29,7 +32,12 @@ public class AccountController {
     }
 
     public boolean register(String email, String name, char[] password){
-        return accountsService.register(email, name, password);
+        boolean accountSuccess = accountsService.createAccount(email, password);
+        if (accountSuccess){
+            Account account = accountsService.getAccountByEmail(email);
+            return usersService.createUser(account.getId(), name);
+        }
+        return false;
     }
 
 }
