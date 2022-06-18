@@ -7,14 +7,14 @@ package io.bluerecandy.codemart.gui.view;
 
 import io.bluerecandy.codemart.gui.AppCache;
 import io.bluerecandy.codemart.gui.controller.AccountController;
+import io.bluerecandy.codemart.gui.controller.UserController;
 import io.bluerecandy.codemart.gui.model.Account;
+import io.bluerecandy.codemart.gui.model.User;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 import io.bluerecandy.codemart.gui.sql.SQLInitialization;
 
-import java.sql.Connection;
+import javax.swing.*;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -159,10 +159,13 @@ public class LoginFrame extends javax.swing.JFrame {
             this.dispose();
             new DashboardFrame().setVisible(true);
 
-            AppCache.getInstance().setActiveAccount(account);
+            User user = UserController.getInstance().getUserById(account.getId());
 
+            AppCache.getInstance().setActiveAccount(user.getAccount());
+            AppCache.getInstance().setActiveUser(user);
         }else{
             // TODO Add feedback if something wrong
+            JOptionPane.showMessageDialog(null, "Login Failed");
         }
     }//GEN-LAST:event_btnLoginFrameLoginActionPerformed
 
