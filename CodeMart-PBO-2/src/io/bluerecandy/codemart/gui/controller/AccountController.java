@@ -21,6 +21,10 @@ public class AccountController {
         usersService = UsersService.getInstance();
     }
 
+    public boolean logout(int id){
+        return accountsService.updateAccount(id, false);
+    }
+
     public Account login(String email, final char[] password){
         boolean isSuccess = accountsService.login(email, password);
 
