@@ -26,8 +26,8 @@ public class UserController {
         return usersService.getUserById(id);
     }
 
-    public void topUp(int id, int amount){
-        usersService.addUserCoin(id, amount);
+    public void topUp(User user, int amount){
+        usersService.addUserCoin(user, amount);
     }
 
     public void changeName(int id, String newName){

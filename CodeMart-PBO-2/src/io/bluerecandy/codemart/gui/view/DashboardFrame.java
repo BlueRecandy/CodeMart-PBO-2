@@ -7,6 +7,8 @@ package io.bluerecandy.codemart.gui.view;
 import io.bluerecandy.codemart.gui.AppCache;
 import io.bluerecandy.codemart.gui.controller.AccountController;
 import io.bluerecandy.codemart.gui.controller.ProductController;
+import io.bluerecandy.codemart.gui.controller.UserController;
+import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.model.Product;
 import io.bluerecandy.codemart.gui.model.User;
 
@@ -35,6 +37,12 @@ public class DashboardFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dialogDashboardFrameAccountTopup = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        textFieldDashboardFrameAccountDialogTopupAmount = new javax.swing.JTextField();
+        buttonDashboardFrameAccountDialogTopup = new javax.swing.JButton();
+        buttonDashboardFrameAccountDialogTopupCancel = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelDashboardFrameBrowse = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -76,8 +84,78 @@ public class DashboardFrame extends javax.swing.JFrame {
         buttonDashboardFrameAccountLogout = new javax.swing.JButton();
         buttonDashboardFrameAccountTopup = new javax.swing.JButton();
 
+        dialogDashboardFrameAccountTopup.setTitle("Account Topup");
+        dialogDashboardFrameAccountTopup.setAlwaysOnTop(true);
+        dialogDashboardFrameAccountTopup.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dialogDashboardFrameAccountTopup.setSize(new java.awt.Dimension(280, 160));
+
+        jLabel7.setText("Amount");
+
+        buttonDashboardFrameAccountDialogTopup.setText("Topup");
+        buttonDashboardFrameAccountDialogTopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameAccountDialogTopupActionPerformed(evt);
+            }
+        });
+
+        buttonDashboardFrameAccountDialogTopupCancel.setText("Cancel");
+        buttonDashboardFrameAccountDialogTopupCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameAccountDialogTopupCancelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textFieldDashboardFrameAccountDialogTopupAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonDashboardFrameAccountDialogTopup)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDashboardFrameAccountDialogTopupCancel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(textFieldDashboardFrameAccountDialogTopupAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonDashboardFrameAccountDialogTopup)
+                    .addComponent(buttonDashboardFrameAccountDialogTopupCancel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout dialogDashboardFrameAccountTopupLayout = new javax.swing.GroupLayout(dialogDashboardFrameAccountTopup.getContentPane());
+        dialogDashboardFrameAccountTopup.getContentPane().setLayout(dialogDashboardFrameAccountTopupLayout);
+        dialogDashboardFrameAccountTopupLayout.setHorizontalGroup(
+            dialogDashboardFrameAccountTopupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogDashboardFrameAccountTopupLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        dialogDashboardFrameAccountTopupLayout.setVerticalGroup(
+            dialogDashboardFrameAccountTopupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogDashboardFrameAccountTopupLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -319,6 +397,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         });
 
         buttonDashboardFrameAccountTopup.setText("Top Up");
+        buttonDashboardFrameAccountTopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameAccountTopupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDashboardFrameAccountLayout = new javax.swing.GroupLayout(panelDashboardFrameAccount);
         panelDashboardFrameAccount.setLayout(panelDashboardFrameAccountLayout);
@@ -422,6 +505,42 @@ public class DashboardFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listDashboardFrameBrowseProductsValueChanged
 
+    private void buttonDashboardFrameAccountTopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameAccountTopupActionPerformed
+        // TODO add your handling code here:
+        dialogDashboardFrameAccountTopup.setVisible(true);
+    }//GEN-LAST:event_buttonDashboardFrameAccountTopupActionPerformed
+
+    private void buttonDashboardFrameAccountDialogTopupCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameAccountDialogTopupCancelActionPerformed
+        // TODO add your handling code here:
+        dialogDashboardFrameAccountTopup.setVisible(false);
+    }//GEN-LAST:event_buttonDashboardFrameAccountDialogTopupCancelActionPerformed
+
+    private void buttonDashboardFrameAccountDialogTopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameAccountDialogTopupActionPerformed
+        // TODO add your handling code here:
+        String amountRaw = textFieldDashboardFrameAccountDialogTopupAmount.getText();
+        try{
+            int amount = Integer.parseInt(amountRaw);
+
+            User user = AppCache.getInstance().getActiveUser();
+            UserController.getInstance().topUp(user, amount);
+
+            dialogDashboardFrameAccountTopup.dispose();
+            labelDashboardFrameAccountCoin.setText("Coin: " + user.getCoin());
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "TopUp amount must be integer");
+        }
+        
+    }//GEN-LAST:event_buttonDashboardFrameAccountDialogTopupActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Account activeAccount = AppCache.getInstance().getActiveAccount();
+
+        if (activeAccount != null){
+            AccountController.getInstance().logout(activeAccount.getId());
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -459,6 +578,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonDashboardFrameAccountDialogTopup;
+    private javax.swing.JButton buttonDashboardFrameAccountDialogTopupCancel;
     private javax.swing.JButton buttonDashboardFrameAccountLogout;
     private javax.swing.JButton buttonDashboardFrameAccountTopup;
     private javax.swing.JButton buttonDashboardFrameBrowseDownload;
@@ -468,12 +589,15 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonDashboardFrameYourProductsCancel;
     private javax.swing.JButton buttonDashboardFrameYourProductsRemove;
     private javax.swing.JButton buttonDashboardFrameYourProductsSave;
+    private javax.swing.JDialog dialogDashboardFrameAccountTopup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -494,6 +618,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea textAreaDashboardFrameBrowseDescription;
     private javax.swing.JTextArea textAreaDashboardFrameUploadProductDescription;
     private javax.swing.JTextArea textAreaDashboardFrameYourProductsDescription;
+    private javax.swing.JTextField textFieldDashboardFrameAccountDialogTopupAmount;
     private javax.swing.JTextField textFieldDashboardFrameUploadProductPrice;
     private javax.swing.JTextField textFieldDashboardFrameUploadProductTitle;
     private javax.swing.JTextField textFieldDashboardFrameUploadProductVersion;
