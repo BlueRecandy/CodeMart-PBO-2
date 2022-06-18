@@ -23,9 +23,32 @@ public class AccountsService {
         return instance;
     }
 
+    private final static String SELECT_ACCOUNT_BY_ID = "SELECT * FROM accounts WHERE id = ?;";
     private final static String SELECT_ACCOUNT_BY_EMAIL = "SELECT * FROM accounts WHERE email = ?;";
 
+    private final static String INSERT_ACCOUNT_REGISTER = "INSERT INTO accounts(email, password) VALUES (?,?);";
+
     private AccountsService(){}
+
+    public Account getAccountById(int id){
+        Account found = null;
+
+        try{
+            Connection connect = SQLConnector.getInstance().connect();
+            PreparedStatement statement = connect.prepareStatement(SELECT_ACCOUNT_BY_ID);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()){
+                found = processAccountResultSet(rs);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return found;
+    }
 
     public Account getAccountByEmail(String email){
         Account found = null;
@@ -37,20 +60,8 @@ public class AccountsService {
             statement.setString(1, email);
 
             ResultSet result = statement.executeQuery();
-            while (result.next()){
-                int id = result.getInt(1);
-                final char[] password = result.getString(3).toCharArray();
-                int isLoggedInInteger = result.getInt(4);
-                boolean isLoggedIn = isLoggedInInteger == 1;
-
-                Account account = new Account();
-                account.setId(id);
-                account.setEmail(email);
-                account.setPassword(password);
-                account.setLoggedIn(isLoggedIn);
-
-                found = account;
-                break;
+            if (result.next()){
+                found = processAccountResultSet(result);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,36 +87,38 @@ public class AccountsService {
         return false;
     }
 
-    public boolean register(String email, String name, char[] password){
-        if (getAccountByEmail(email) == null){
-            Account account = new Account();
-
-            account.setId(IdUtility.generateRandomId());
-            account.setEmail(email);
-            account.setPassword(password);
-
-            User user = new User();
-            user.setId(account.getId());
-            user.setName(name);
-            user.setCoin(0);
-            user.setUserProducts(new UserProducts());
-            user.setAccount(account);
-
-            // TODO Insert account and user to db
-            Connection connection = SQLConnector.getInstance().connect();
-            try{
-                String query = "INSERT INTO 'accounts'('email', 'password') VALUES(?,?)";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, email);
-                statement.setString(2, String.valueOf(password));
-                statement.executeUpdate();
-                return true;
-            } catch(Exception e){
-                e.printStackTrace();
-            }
-            
+    public boolean createAccount(String email, char[] password){
+        if (getAccountByEmail(email) != null) {
+            return false;
         }
-        return false;
+
+        Connection connection = SQLConnector.getInstance().connect();
+        try {
+            PreparedStatement statement = connection.prepareStatement(INSERT_ACCOUNT_REGISTER);
+            statement.setString(1, email);
+            statement.setString(2, String.valueOf(password));
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Account processAccountResultSet(ResultSet result) throws SQLException {
+        int id = result.getInt(1);
+        String email = result.getString(2);
+        final char[] password = result.getString(3).toCharArray();
+        int isLoggedInInteger = result.getInt(4);
+        boolean isLoggedIn = isLoggedInInteger == 1;
+
+        Account account = new Account();
+        account.setId(id);
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setLoggedIn(isLoggedIn);
+
+        return account;
     }
 
 }
