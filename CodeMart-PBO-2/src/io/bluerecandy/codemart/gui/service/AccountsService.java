@@ -1,12 +1,7 @@
 package io.bluerecandy.codemart.gui.service;
 
 import io.bluerecandy.codemart.gui.model.Account;
-import io.bluerecandy.codemart.gui.model.User;
-import io.bluerecandy.codemart.gui.model.UserProducts;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
-import io.bluerecandy.codemart.gui.utils.IdUtility;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,9 +18,34 @@ public class AccountsService {
         return instance;
     }
 
+    private final static String SELECT_ACCOUNT_BY_ID = "SELECT * FROM accounts WHERE id = ?;";
     private final static String SELECT_ACCOUNT_BY_EMAIL = "SELECT * FROM accounts WHERE email = ?;";
 
+    private final static String INSERT_ACCOUNT_REGISTER = "INSERT INTO accounts(email, password) VALUES (?,?);";
+
+    private final static String UPDATE_ACCOUNT_LOGGED = "UPDATE accounts SET is_logged=? WHERE id = ?;";
+
     private AccountsService(){}
+
+    public Account getAccountById(int id){
+        Account found = null;
+
+        try{
+            Connection connect = SQLConnector.getInstance().connect();
+            PreparedStatement statement = connect.prepareStatement(SELECT_ACCOUNT_BY_ID);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()){
+                found = processAccountResultSet(rs);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return found;
+    }
 
     public Account getAccountByEmail(String email){
         Account found = null;
@@ -37,20 +57,8 @@ public class AccountsService {
             statement.setString(1, email);
 
             ResultSet result = statement.executeQuery();
-            while (result.next()){
-                int id = result.getInt(1);
-                final char[] password = result.getString(3).toCharArray();
-                int isLoggedInInteger = result.getInt(4);
-                boolean isLoggedIn = isLoggedInInteger == 1;
-
-                Account account = new Account();
-                account.setId(id);
-                account.setEmail(email);
-                account.setPassword(password);
-                account.setLoggedIn(isLoggedIn);
-
-                found = account;
-                break;
+            if (result.next()){
+                found = processAccountResultSet(result);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,47 +71,60 @@ public class AccountsService {
         Account account = getAccountByEmail(email);
         if (account != null) {
             if (!account.isLoggedIn() && Arrays.equals(account.getPassword(), password)) {
-                // TODO Set account logged in state to true
-                System.out.println(account);
-                // TODO Update account data to db
+                account.setLoggedIn(true);
+                updateAccount(account.getId(), account.isLoggedIn());
                 return true;
-            } else if (account.isLoggedIn()) {
-                // TODO Send alert if account has been logged in
             }
         }
         return false;
     }
 
-    public boolean register(String email, String name, char[] password){
-        if (getAccountByEmail(email) == null){
-            Account account = new Account();
-
-            account.setId(IdUtility.generateRandomId());
-            account.setEmail(email);
-            account.setPassword(password);
-
-            User user = new User();
-            user.setId(account.getId());
-            user.setName(name);
-            user.setCoin(0);
-            user.setUserProducts(new UserProducts());
-            user.setAccount(account);
-
-            // TODO Insert account and user to db
-            Connection connection = SQLConnector.getInstance().connect();
-            try{
-                String query = "INSERT INTO 'accounts'('email', 'password') VALUES(?,?)";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, email);
-                statement.setString(2, String.valueOf(password));
-                statement.executeUpdate();
-                return true;
-            } catch(Exception e){
-                e.printStackTrace();
-            }
-            
+    public boolean updateAccount(int id, boolean isLoggedIn){
+        Connection connection = SQLConnector.getInstance().connect();
+        try {
+            PreparedStatement statement = connection.prepareStatement(UPDATE_ACCOUNT_LOGGED);
+            statement.setInt(1, isLoggedIn ? 1 : 0);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
+    }
+
+    public boolean createAccount(String email, char[] password){
+        if (getAccountByEmail(email) != null) {
+            return false;
+        }
+
+        Connection connection = SQLConnector.getInstance().connect();
+        try {
+            PreparedStatement statement = connection.prepareStatement(INSERT_ACCOUNT_REGISTER);
+            statement.setString(1, email);
+            statement.setString(2, String.valueOf(password));
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Account processAccountResultSet(ResultSet result) throws SQLException {
+        int id = result.getInt(1);
+        String email = result.getString(2);
+        final char[] password = result.getString(3).toCharArray();
+        int isLoggedInInteger = result.getInt(4);
+        boolean isLoggedIn = isLoggedInInteger == 1;
+
+        Account account = new Account();
+        account.setId(id);
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setLoggedIn(isLoggedIn);
+
+        return account;
     }
 
 }

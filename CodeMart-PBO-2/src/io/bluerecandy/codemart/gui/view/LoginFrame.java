@@ -5,14 +5,16 @@ package io.bluerecandy.codemart.gui.view;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import io.bluerecandy.codemart.gui.AppCache;
 import io.bluerecandy.codemart.gui.controller.AccountController;
+import io.bluerecandy.codemart.gui.controller.UserController;
+import io.bluerecandy.codemart.gui.model.Account;
+import io.bluerecandy.codemart.gui.model.User;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 import io.bluerecandy.codemart.gui.sql.SQLInitialization;
 
-import java.sql.Connection;
+import javax.swing.*;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -151,7 +153,20 @@ public class LoginFrame extends javax.swing.JFrame {
         String email = textFieldLoginFrameEmail.getText();
         char[] password = passwordFieldLoginFramePassword.getPassword();
         
-        AccountController.getInstance().login(email, password);
+        Account account = AccountController.getInstance().login(email, password);
+
+        if (account != null){
+            this.dispose();
+            new DashboardFrame().setVisible(true);
+
+            User user = UserController.getInstance().getUserById(account.getId());
+
+            AppCache.getInstance().setActiveAccount(user.getAccount());
+            AppCache.getInstance().setActiveUser(user);
+        }else{
+            // TODO Add feedback if something wrong
+            JOptionPane.showMessageDialog(null, "Login Failed");
+        }
     }//GEN-LAST:event_btnLoginFrameLoginActionPerformed
 
     private void btnLoginFrameRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginFrameRegisterActionPerformed
