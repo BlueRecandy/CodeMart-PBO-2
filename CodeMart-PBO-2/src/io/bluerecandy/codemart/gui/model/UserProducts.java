@@ -1,11 +1,12 @@
 package io.bluerecandy.codemart.gui.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserProducts {
 
     private int userId;
-    private List<Product> ownedProducts, purchasedProducts;
+    private List<PurchasedProduct> purchasedProducts = new ArrayList<>();
 
     public int getUserId() {
         return userId;
@@ -15,19 +16,11 @@ public class UserProducts {
         this.userId = userId;
     }
 
-    public List<Product> getOwnedProducts() {
-        return ownedProducts;
-    }
-
-    public void setOwnedProducts(List<Product> ownedProducts) {
-        this.ownedProducts = ownedProducts;
-    }
-
-    public List<Product> getPurchasedProducts() {
+    public List<PurchasedProduct> getPurchasedProducts() {
         return purchasedProducts;
     }
 
-    public void setPurchasedProducts(List<Product> purchasedProducts) {
+    public void setPurchasedProducts(List<PurchasedProduct> purchasedProducts) {
         this.purchasedProducts = purchasedProducts;
     }
 }
