@@ -40,7 +40,7 @@ public class SQLInitialization {
             ");";
 
     private final static String CREATE_TABLE_PURCHASED_PRODUCTS = "CREATE TABLE IF NOT EXISTS purchased_products (\n" +
-            "\tid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,\n" +
+            "\ttransaction_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,\n" +
             "    product_id INT NOT NULL,\n" +
             "    customer_id INT NOT NULL,\n" +
             "    CONSTRAINT FK_purchased_products_products_id FOREIGN KEY(product_id) REFERENCES products(id),\n" +
