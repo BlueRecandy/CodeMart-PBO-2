@@ -14,6 +14,7 @@ import io.bluerecandy.codemart.gui.model.User;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -324,8 +325,18 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel4.setText("Version");
 
         buttonDashboardFrameUploadProductUpload.setText("Upload Product");
+        buttonDashboardFrameUploadProductUpload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameUploadProductUploadActionPerformed(evt);
+            }
+        });
 
         buttonDashboardFrameUploadProductClear.setText("Clear");
+        buttonDashboardFrameUploadProductClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameUploadProductClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDashboardFrameUploadProductLayout = new javax.swing.GroupLayout(panelDashboardFrameUploadProduct);
         panelDashboardFrameUploadProduct.setLayout(panelDashboardFrameUploadProductLayout);
@@ -465,11 +476,17 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameBrowseProducts.getModel();
         model.addAll(products);
-        
+
         // Account
         User activeUser = AppCache.getInstance().getActiveUser();
         labelDashboardFrameAccountName.setText("Name: " + activeUser.getName());
         labelDashboardFrameAccountCoin.setText("Coin: " + activeUser.getCoin());
+
+        // Your Products
+        model = (DefaultListModel<Product>) listDashboardFrameYourProducts.getModel();
+        List<Product> ownedProducts = products.stream()
+                .filter(product -> product.getOwner().getId() == activeUser.getId()).collect(Collectors.toList());
+        model.addAll(ownedProducts);
     }//GEN-LAST:event_formWindowOpened
 
     private void buttonDashboardFrameAccountLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameAccountLogoutActionPerformed
@@ -540,6 +557,48 @@ public class DashboardFrame extends javax.swing.JFrame {
             AccountController.getInstance().logout(activeAccount.getId());
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void buttonDashboardFrameUploadProductUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameUploadProductUploadActionPerformed
+        // TODO add your handling code here:
+
+        String title = textFieldDashboardFrameUploadProductTitle.getText();
+        String version = textFieldDashboardFrameUploadProductVersion.getText();
+        String priceRaw = textFieldDashboardFrameUploadProductPrice.getText();
+        String description = textAreaDashboardFrameUploadProductDescription.getText();
+        int price = -1;
+        try{
+            price = Integer.parseInt(priceRaw);
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Price amount must be integer");
+        }
+
+        User user = AppCache.getInstance().getActiveUser();
+        Product result = ProductController.getInstance().uploadProduct(title, version, description, price, user.getId(), null);
+
+        if (result != null){
+            DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameBrowseProducts.getModel();
+            model.addElement(result);
+
+            model = (DefaultListModel<Product>) listDashboardFrameYourProducts.getModel();
+            model.addElement(result);
+
+            JOptionPane.showMessageDialog(null, "Product has been uploaded");
+
+            // Clear field
+            textFieldDashboardFrameUploadProductTitle.setText("");
+            textFieldDashboardFrameUploadProductPrice.setText("");
+            textFieldDashboardFrameUploadProductVersion.setText("");
+            textAreaDashboardFrameUploadProductDescription.setText("");
+        }
+    }//GEN-LAST:event_buttonDashboardFrameUploadProductUploadActionPerformed
+
+    private void buttonDashboardFrameUploadProductClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameUploadProductClearActionPerformed
+        // TODO add your handling code here:
+        textFieldDashboardFrameUploadProductTitle.setText("");
+        textFieldDashboardFrameUploadProductPrice.setText("");
+        textFieldDashboardFrameUploadProductVersion.setText("");
+        textAreaDashboardFrameUploadProductDescription.setText("");
+    }//GEN-LAST:event_buttonDashboardFrameUploadProductClearActionPerformed
 
     /**
      * @param args the command line arguments

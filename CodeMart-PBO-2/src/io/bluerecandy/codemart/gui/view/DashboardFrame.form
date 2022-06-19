@@ -559,11 +559,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Upload Product"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDashboardFrameUploadProductUploadActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="buttonDashboardFrameUploadProductClear">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Clear"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDashboardFrameUploadProductClearActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
