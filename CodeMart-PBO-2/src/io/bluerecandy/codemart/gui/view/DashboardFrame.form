@@ -100,6 +100,8 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JFileChooser" name="fileChooserDashboardFrameUploadProduct">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -462,7 +464,7 @@
                                       <Component id="jLabel2" min="-2" pref="37" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="textFieldDashboardFrameUploadProductPrice" pref="136" max="32767" attributes="0"/>
+                                  <Component id="textFieldDashboardFrameUploadProductPrice" pref="153" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -472,18 +474,20 @@
                           </Group>
                           <Component id="jScrollPane2" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="buttonDashboardFrameUploadProductUpload" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="buttonDashboardFrameUploadProductClear" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="buttonDashboardFrameUploadProductUpload" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="buttonDashboardFrameUploadProductClear" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="buttonDashboardFrameUploadProductSelectFile" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="labelDashboardFrameUploadProductSelectedFile" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -510,6 +514,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="buttonDashboardFrameUploadProductUpload" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonDashboardFrameUploadProductClear" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonDashboardFrameUploadProductSelectFile" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelDashboardFrameUploadProductSelectedFile" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
@@ -573,6 +579,19 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDashboardFrameUploadProductClearActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="buttonDashboardFrameUploadProductSelectFile">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Select File..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDashboardFrameUploadProductSelectFileActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelDashboardFrameUploadProductSelectedFile">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Selected File: None"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
