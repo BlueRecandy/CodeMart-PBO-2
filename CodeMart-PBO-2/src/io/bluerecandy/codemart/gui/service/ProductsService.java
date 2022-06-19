@@ -4,6 +4,7 @@ import io.bluerecandy.codemart.gui.model.Product;
 import io.bluerecandy.codemart.gui.model.User;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,10 @@ public class ProductsService {
     private final static String SELECT_ALL_PRODUCTS = "SELECT * FROM products;";
 
     private final static String SELECT_PRODUCT_BY_OWNER = "SELECT * FROM products WHERE owner_id = ?;";
+    private final static String SELECT_PRODUCT_BY_OWNER_AND_NAME = "SELECT * FROM products WHERE owner_id = ? AND name = ?;";
+
+    private final static String INSERT_PRODUCT_ALL = "INSERT INTO products(name, version, description, price, owner_id, file) VALUES (?,?,?, ?,?,?);";
+    private final static String INSERT_PRODUCT_NO_FILE = "INSERT INTO products(name, version, description, price, owner_id) VALUES (?,?,?, ?,?);";
 
     private ProductsService(){}
 
@@ -42,6 +47,24 @@ public class ProductsService {
         }
 
         return found;
+    }
+
+    public Product getOwnerProductsByName(int ownerId, String name){
+        Connection connect = SQLConnector.getInstance().connect();
+        PreparedStatement statement = null;
+        try {
+            statement = connect.prepareStatement(SELECT_PRODUCT_BY_OWNER_AND_NAME);
+            statement.setInt(1, ownerId);
+            statement.setString(2, name);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                return processProductResultSet(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Product> getOwnerProducts(int ownerId){
@@ -83,6 +106,35 @@ public class ProductsService {
         return products;
     }
 
+    public boolean uploadProduct(String name, String version, String description, int price, int ownerId, File file){
+        Connection connect = SQLConnector.getInstance().connect();
+
+        boolean isCreated = getOwnerProductsByName(ownerId, name) != null;
+        boolean hasSourceFile = file != null;
+
+        if (isCreated){
+            return false;
+        }
+
+        try {
+            PreparedStatement statement = connect.prepareStatement(hasSourceFile ? INSERT_PRODUCT_ALL : INSERT_PRODUCT_NO_FILE);
+            statement.setString(1, name);
+            statement.setString(2, version);
+            statement.setString(3, description);
+            statement.setInt(4, price);
+            statement.setInt(5, ownerId);
+
+            if (hasSourceFile){
+                // TODO Register file stream blob
+            }
+
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public void setProductName(int productId, String newName){
         Product product = getProductById(productId);
@@ -119,6 +171,9 @@ public class ProductsService {
         product.setDescription(description);
         product.setPrice(price);
         // TODO set owner using User Model
+
+        User user = UsersService.getInstance().getUserById(ownerId);
+        product.setOwner(user);
 
         return product;
     }
