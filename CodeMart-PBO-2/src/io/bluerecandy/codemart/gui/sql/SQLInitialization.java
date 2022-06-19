@@ -39,6 +39,14 @@ public class SQLInitialization {
             "    CONSTRAINT FK_products_accounts_id FOREIGN KEY(owner_id) REFERENCES accounts(id) ON DELETE CASCADE\n" +
             ");";
 
+    private final static String CREATE_TABLE_PURCHASED_PRODUCTS = "CREATE TABLE IF NOT EXISTS purchased_products (\n" +
+            "\tid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,\n" +
+            "    product_id INT NOT NULL,\n" +
+            "    customer_id INT NOT NULL,\n" +
+            "    CONSTRAINT FK_purchased_products_products_id FOREIGN KEY(product_id) REFERENCES products(id),\n" +
+            "    CONSTRAINT FK_purchased_products_accounts_id FOREIGN KEY(customer_id) REFERENCES accounts(id)\n" +
+            ");";
+
     private SQLInitialization(){}
 
     public void init(){
@@ -53,6 +61,7 @@ public class SQLInitialization {
             s.executeUpdate(CREATE_TABLE_ACCOUNTS);
             s.executeUpdate(CREATE_TABLE_USERS);
             s.executeUpdate(CREATE_TABLE_PRODUCTS);
+            s.executeUpdate(CREATE_TABLE_PURCHASED_PRODUCTS);
         } catch (SQLException e) {
             e.printStackTrace();
         }
