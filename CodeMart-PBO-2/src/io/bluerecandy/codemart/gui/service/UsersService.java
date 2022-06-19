@@ -26,7 +26,6 @@ public class UsersService {
 
     private UsersService(){}
 
-
     public User getUserById(int id){
         User found = null;
         Connection connection = SQLConnector.getInstance().connect();
@@ -69,11 +68,10 @@ public class UsersService {
         }
     }
 
-    public void addUserCoin(User user, int amount){
+    public boolean addUserCoin(User user, int amount){
         if (user != null){
             user.setCoin(user.getCoin() + amount);
 
-            // TODO Update coin at database
             Connection connection = SQLConnector.getInstance().connect();
             try {
                 PreparedStatement statement = connection.prepareStatement(UPDATE_USER_COIN);
@@ -81,20 +79,28 @@ public class UsersService {
                 statement.setInt(2, user.getId());
 
                 statement.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
-    public boolean subtractUserCoin(int id, int amount){
+    public boolean subtractUserCoin(int id, int amount) throws SQLException {
         User user = getUserById(id);
         if (user != null){
             int coin = user.getCoin();
             if (coin >= amount) {
                 user.setCoin(user.getCoin() - amount);
 
-                // TODO Update coin at database
+                Connection connect = SQLConnector.getInstance().connect();
+
+                PreparedStatement statement = connect.prepareStatement(UPDATE_USER_COIN);
+                statement.setInt(1, user.getCoin());
+                statement.setInt(2, user.getId());
+                statement.executeUpdate();
+
                 return true;
             }else{
                 return false;

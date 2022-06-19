@@ -7,6 +7,7 @@ package io.bluerecandy.codemart.gui.view;
 import io.bluerecandy.codemart.gui.AppCache;
 import io.bluerecandy.codemart.gui.controller.AccountController;
 import io.bluerecandy.codemart.gui.controller.ProductController;
+import io.bluerecandy.codemart.gui.controller.PurchaseController;
 import io.bluerecandy.codemart.gui.controller.UserController;
 import io.bluerecandy.codemart.gui.model.Account;
 import io.bluerecandy.codemart.gui.model.Product;
@@ -44,7 +45,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         textFieldDashboardFrameAccountDialogTopupAmount = new javax.swing.JTextField();
         buttonDashboardFrameAccountDialogTopup = new javax.swing.JButton();
         buttonDashboardFrameAccountDialogTopupCancel = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPaneDashboardFrame = new javax.swing.JTabbedPane();
         panelDashboardFrameBrowse = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listDashboardFrameBrowseProducts = new javax.swing.JList<>();
@@ -179,6 +180,11 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         buttonDashboardFrameBrowsePurchase.setText("Purchase");
         buttonDashboardFrameBrowsePurchase.setEnabled(false);
+        buttonDashboardFrameBrowsePurchase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameBrowsePurchaseActionPerformed(evt);
+            }
+        });
 
         textAreaDashboardFrameBrowseDescription.setColumns(20);
         textAreaDashboardFrameBrowseDescription.setLineWrap(true);
@@ -226,7 +232,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Browse", panelDashboardFrameBrowse);
+        tabbedPaneDashboardFrame.addTab("Browse", panelDashboardFrameBrowse);
 
         listDashboardFrameYourProducts.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(listDashboardFrameYourProducts);
@@ -310,7 +316,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Your Products", panelDashboardFrameYourProducts);
+        tabbedPaneDashboardFrame.addTab("Your Products", panelDashboardFrameYourProducts);
 
         jLabel1.setText("Product Title");
 
@@ -394,7 +400,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jTabbedPane1.addTab("Upload Product", panelDashboardFrameUploadProduct);
+        tabbedPaneDashboardFrame.addTab("Upload Product", panelDashboardFrameUploadProduct);
 
         labelDashboardFrameAccountName.setText("Name: ");
 
@@ -444,7 +450,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addGap(38, 38, 38))
         );
 
-        jTabbedPane1.addTab("Account", panelDashboardFrameAccount);
+        tabbedPaneDashboardFrame.addTab("Account", panelDashboardFrameAccount);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -452,19 +458,19 @@ public class DashboardFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabbedPaneDashboardFrame)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabbedPaneDashboardFrame)
                 .addContainerGap())
         );
 
-        jTabbedPane1.getAccessibleContext().setAccessibleName("Browse");
-        jTabbedPane1.getAccessibleContext().setAccessibleDescription("");
+        tabbedPaneDashboardFrame.getAccessibleContext().setAccessibleName("Browse");
+        tabbedPaneDashboardFrame.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -479,8 +485,7 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         // Account
         User activeUser = AppCache.getInstance().getActiveUser();
-        labelDashboardFrameAccountName.setText("Name: " + activeUser.getName());
-        labelDashboardFrameAccountCoin.setText("Coin: " + activeUser.getCoin());
+        updateFrame();
 
         // Your Products
         model = (DefaultListModel<Product>) listDashboardFrameYourProducts.getModel();
@@ -506,13 +511,26 @@ public class DashboardFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         Product product = listDashboardFrameBrowseProducts.getSelectedValue();
         if (product != null){
+            User activeUser = AppCache.getInstance().getActiveUser();
+
             labelDashboardFrameBrowseTitle.setText(product.getName());
             labelDashboardFrameBrowsePrice.setText("Price: " + product.getPrice());
             textAreaDashboardFrameBrowseDescription.setText(product.getDescription());
-            
-            // TODO Check if user able to download
-            
-            // TODO Check if user able to purchase
+
+            if (product.getOwner().getId() != activeUser.getId()) {
+                // TODO Check if user able to download
+                PurchaseController purchaseController = PurchaseController.getInstance();
+
+                if (purchaseController.hasPurchased(activeUser.getId(), product.getId())) {
+                    buttonDashboardFrameBrowseDownload.setEnabled(true);
+                }else {
+                    // TODO Check if user able to purchase
+                    buttonDashboardFrameBrowsePurchase.setEnabled(true);
+                }
+            }else{
+                buttonDashboardFrameBrowseDownload.setEnabled(false);
+                buttonDashboardFrameBrowsePurchase.setEnabled(false);
+            }
         }else{
             labelDashboardFrameBrowseTitle.setText("Product Title");
             labelDashboardFrameBrowsePrice.setText("Price:");
@@ -600,6 +618,34 @@ public class DashboardFrame extends javax.swing.JFrame {
         textAreaDashboardFrameUploadProductDescription.setText("");
     }//GEN-LAST:event_buttonDashboardFrameUploadProductClearActionPerformed
 
+    private void buttonDashboardFrameBrowsePurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameBrowsePurchaseActionPerformed
+        // TODO add your handling code here:
+        User activeUser = AppCache.getInstance().getActiveUser();
+        Product product = listDashboardFrameBrowseProducts.getSelectedValue();
+
+        int coin = activeUser.getCoin();
+        int price = product.getPrice();
+
+        if (coin >= price){
+            if (UserController.getInstance().purchaseProduct(activeUser, product) != null){
+                JOptionPane.showMessageDialog(null, "Successfully purchase product");
+
+                buttonDashboardFrameBrowsePurchase.setEnabled(false);
+                buttonDashboardFrameBrowseDownload.setEnabled(true);
+                updateFrame();
+            }
+        }
+
+    }//GEN-LAST:event_buttonDashboardFrameBrowsePurchaseActionPerformed
+
+    private void updateFrame(){
+        User activeUser = AppCache.getInstance().getActiveUser();
+        if (activeUser != null) {
+            labelDashboardFrameAccountName.setText("Name: " + activeUser.getName());
+            labelDashboardFrameAccountCoin.setText("Coin: " + activeUser.getCoin());
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -662,7 +708,6 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel labelDashboardFrameAccountCoin;
     private javax.swing.JLabel labelDashboardFrameAccountName;
     private javax.swing.JLabel labelDashboardFrameBrowsePrice;
@@ -674,6 +719,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelDashboardFrameBrowse;
     private javax.swing.JPanel panelDashboardFrameUploadProduct;
     private javax.swing.JPanel panelDashboardFrameYourProducts;
+    private javax.swing.JTabbedPane tabbedPaneDashboardFrame;
     private javax.swing.JTextArea textAreaDashboardFrameBrowseDescription;
     private javax.swing.JTextArea textAreaDashboardFrameUploadProductDescription;
     private javax.swing.JTextArea textAreaDashboardFrameYourProductsDescription;
