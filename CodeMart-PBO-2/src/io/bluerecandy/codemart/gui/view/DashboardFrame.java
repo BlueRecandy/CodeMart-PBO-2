@@ -14,6 +14,7 @@ import io.bluerecandy.codemart.gui.model.Product;
 import io.bluerecandy.codemart.gui.model.User;
 
 import javax.swing.*;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         textFieldDashboardFrameAccountDialogTopupAmount = new javax.swing.JTextField();
         buttonDashboardFrameAccountDialogTopup = new javax.swing.JButton();
         buttonDashboardFrameAccountDialogTopupCancel = new javax.swing.JButton();
+        fileChooserDashboardFrameUploadProduct = new javax.swing.JFileChooser();
         tabbedPaneDashboardFrame = new javax.swing.JTabbedPane();
         panelDashboardFrameBrowse = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -80,6 +82,8 @@ public class DashboardFrame extends javax.swing.JFrame {
         textFieldDashboardFrameUploadProductVersion = new javax.swing.JTextField();
         buttonDashboardFrameUploadProductUpload = new javax.swing.JButton();
         buttonDashboardFrameUploadProductClear = new javax.swing.JButton();
+        buttonDashboardFrameUploadProductSelectFile = new javax.swing.JButton();
+        labelDashboardFrameUploadProductSelectedFile = new javax.swing.JLabel();
         panelDashboardFrameAccount = new javax.swing.JPanel();
         labelDashboardFrameAccountName = new javax.swing.JLabel();
         labelDashboardFrameAccountCoin = new javax.swing.JLabel();
@@ -177,6 +181,11 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         buttonDashboardFrameBrowseDownload.setText("Download");
         buttonDashboardFrameBrowseDownload.setEnabled(false);
+        buttonDashboardFrameBrowseDownload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameBrowseDownloadActionPerformed(evt);
+            }
+        });
 
         buttonDashboardFrameBrowsePurchase.setText("Purchase");
         buttonDashboardFrameBrowsePurchase.setEnabled(false);
@@ -344,6 +353,15 @@ public class DashboardFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonDashboardFrameUploadProductSelectFile.setText("Select File...");
+        buttonDashboardFrameUploadProductSelectFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameUploadProductSelectFileActionPerformed(evt);
+            }
+        });
+
+        labelDashboardFrameUploadProductSelectedFile.setText("Selected File: None");
+
         javax.swing.GroupLayout panelDashboardFrameUploadProductLayout = new javax.swing.GroupLayout(panelDashboardFrameUploadProduct);
         panelDashboardFrameUploadProduct.setLayout(panelDashboardFrameUploadProductLayout);
         panelDashboardFrameUploadProductLayout.setHorizontalGroup(
@@ -360,21 +378,24 @@ public class DashboardFrame extends javax.swing.JFrame {
                             .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(textFieldDashboardFrameUploadProductPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                            .addComponent(textFieldDashboardFrameUploadProductPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textFieldDashboardFrameUploadProductVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)))
                     .addComponent(jScrollPane2)
                     .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
-                        .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
-                                .addComponent(buttonDashboardFrameUploadProductUpload)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonDashboardFrameUploadProductClear))
-                            .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(52, 52, 52))
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelDashboardFrameUploadProductLayout.createSequentialGroup()
+                        .addComponent(buttonDashboardFrameUploadProductUpload)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDashboardFrameUploadProductClear)
+                        .addGap(35, 35, 35)
+                        .addComponent(buttonDashboardFrameUploadProductSelectFile)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelDashboardFrameUploadProductSelectedFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(35, 35, 35))
         );
         panelDashboardFrameUploadProductLayout.setVerticalGroup(
             panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,7 +417,9 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(panelDashboardFrameUploadProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonDashboardFrameUploadProductUpload)
-                    .addComponent(buttonDashboardFrameUploadProductClear))
+                    .addComponent(buttonDashboardFrameUploadProductClear)
+                    .addComponent(buttonDashboardFrameUploadProductSelectFile)
+                    .addComponent(labelDashboardFrameUploadProductSelectedFile))
                 .addGap(25, 25, 25))
         );
 
@@ -589,9 +612,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         }catch (NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Price amount must be integer");
         }
+        File file = AppCache.getInstance().getChoosenFile();
 
         User user = AppCache.getInstance().getActiveUser();
-        Product result = ProductController.getInstance().uploadProduct(title, version, description, price, user.getId(), null);
+        Product result = ProductController.getInstance().uploadProduct(title, version, description, price, user.getId(), file);
 
         if (result != null){
             DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameBrowseProducts.getModel();
@@ -607,6 +631,8 @@ public class DashboardFrame extends javax.swing.JFrame {
             textFieldDashboardFrameUploadProductPrice.setText("");
             textFieldDashboardFrameUploadProductVersion.setText("");
             textAreaDashboardFrameUploadProductDescription.setText("");
+            labelDashboardFrameUploadProductSelectedFile.setText("Selected File: None");
+            AppCache.getInstance().setChoosenFile(null);
         }
     }//GEN-LAST:event_buttonDashboardFrameUploadProductUploadActionPerformed
 
@@ -616,6 +642,8 @@ public class DashboardFrame extends javax.swing.JFrame {
         textFieldDashboardFrameUploadProductPrice.setText("");
         textFieldDashboardFrameUploadProductVersion.setText("");
         textAreaDashboardFrameUploadProductDescription.setText("");
+        labelDashboardFrameUploadProductSelectedFile.setText("Selected File: None");
+        AppCache.getInstance().setChoosenFile(null);
     }//GEN-LAST:event_buttonDashboardFrameUploadProductClearActionPerformed
 
     private void buttonDashboardFrameBrowsePurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameBrowsePurchaseActionPerformed
@@ -637,6 +665,33 @@ public class DashboardFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_buttonDashboardFrameBrowsePurchaseActionPerformed
+
+    private void buttonDashboardFrameUploadProductSelectFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameUploadProductSelectFileActionPerformed
+        // TODO add your handling code here:
+        int chooseAction = fileChooserDashboardFrameUploadProduct.showOpenDialog(this);
+        if (chooseAction == JFileChooser.APPROVE_OPTION){
+            File file = fileChooserDashboardFrameUploadProduct.getSelectedFile();
+            String fileName = file.getName();
+
+            if (fileName.endsWith(".zip")){
+                AppCache.getInstance().setChoosenFile(file);
+                labelDashboardFrameUploadProductSelectedFile.setText("Selected File: " + fileName);
+            }else{
+                JOptionPane.showMessageDialog(null, "File must be .zip");
+            }
+        }
+    }//GEN-LAST:event_buttonDashboardFrameUploadProductSelectFileActionPerformed
+
+    private void buttonDashboardFrameBrowseDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameBrowseDownloadActionPerformed
+        // TODO add your handling code here:
+        Product product = listDashboardFrameBrowseProducts.getSelectedValue();
+        boolean isSuccess = UserController.getInstance().download(product.getId());
+        if (isSuccess){
+            JOptionPane.showMessageDialog(null, "Product has been downloaded");
+        }else {
+            JOptionPane.showMessageDialog(null, "Product doesn't have file!");
+        }
+    }//GEN-LAST:event_buttonDashboardFrameBrowseDownloadActionPerformed
 
     private void updateFrame(){
         User activeUser = AppCache.getInstance().getActiveUser();
@@ -690,11 +745,13 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonDashboardFrameBrowseDownload;
     private javax.swing.JButton buttonDashboardFrameBrowsePurchase;
     private javax.swing.JButton buttonDashboardFrameUploadProductClear;
+    private javax.swing.JButton buttonDashboardFrameUploadProductSelectFile;
     private javax.swing.JButton buttonDashboardFrameUploadProductUpload;
     private javax.swing.JButton buttonDashboardFrameYourProductsCancel;
     private javax.swing.JButton buttonDashboardFrameYourProductsRemove;
     private javax.swing.JButton buttonDashboardFrameYourProductsSave;
     private javax.swing.JDialog dialogDashboardFrameAccountTopup;
+    private javax.swing.JFileChooser fileChooserDashboardFrameUploadProduct;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -712,6 +769,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelDashboardFrameAccountName;
     private javax.swing.JLabel labelDashboardFrameBrowsePrice;
     private javax.swing.JLabel labelDashboardFrameBrowseTitle;
+    private javax.swing.JLabel labelDashboardFrameUploadProductSelectedFile;
     private javax.swing.JLabel labelDashboardFrameYourProductsTitle;
     private javax.swing.JList<Product> listDashboardFrameBrowseProducts;
     private javax.swing.JList<Product> listDashboardFrameYourProducts;

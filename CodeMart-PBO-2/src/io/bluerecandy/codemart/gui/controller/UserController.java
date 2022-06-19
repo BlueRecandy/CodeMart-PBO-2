@@ -4,9 +4,11 @@ import io.bluerecandy.codemart.gui.model.Product;
 import io.bluerecandy.codemart.gui.model.PurchasedProduct;
 import io.bluerecandy.codemart.gui.model.User;
 import io.bluerecandy.codemart.gui.model.UserProducts;
+import io.bluerecandy.codemart.gui.service.ProductsService;
 import io.bluerecandy.codemart.gui.service.PurchasesService;
 import io.bluerecandy.codemart.gui.service.UsersService;
 
+import java.io.File;
 import java.sql.SQLException;
 
 public class UserController {
@@ -20,10 +22,12 @@ public class UserController {
 
     private final UsersService usersService;
     private final PurchasesService purchasesService;
+    private final ProductsService productsService;
 
     private UserController(){
         usersService = UsersService.getInstance();
         purchasesService = PurchasesService.getInstance();
+        productsService = ProductsService.getInstance();
     }
 
     public User getUserById(int id){
@@ -64,6 +68,11 @@ public class UserController {
             }
         }
         return null;
+    }
+
+    public boolean download(int productId){
+        File file = productsService.download(productId);
+        return file != null;
     }
 
     public void topUp(User user, int amount){
