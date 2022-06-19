@@ -181,6 +181,11 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         buttonDashboardFrameBrowseDownload.setText("Download");
         buttonDashboardFrameBrowseDownload.setEnabled(false);
+        buttonDashboardFrameBrowseDownload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameBrowseDownloadActionPerformed(evt);
+            }
+        });
 
         buttonDashboardFrameBrowsePurchase.setText("Purchase");
         buttonDashboardFrameBrowsePurchase.setEnabled(false);
@@ -668,14 +673,25 @@ public class DashboardFrame extends javax.swing.JFrame {
             File file = fileChooserDashboardFrameUploadProduct.getSelectedFile();
             String fileName = file.getName();
 
-            if (fileName.endsWith(".zip") || fileName.endsWith(".rar")){
+            if (fileName.endsWith(".zip")){
                 AppCache.getInstance().setChoosenFile(file);
                 labelDashboardFrameUploadProductSelectedFile.setText("Selected File: " + fileName);
             }else{
-                JOptionPane.showMessageDialog(null, "File must be .zip/.rar");
+                JOptionPane.showMessageDialog(null, "File must be .zip");
             }
         }
     }//GEN-LAST:event_buttonDashboardFrameUploadProductSelectFileActionPerformed
+
+    private void buttonDashboardFrameBrowseDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameBrowseDownloadActionPerformed
+        // TODO add your handling code here:
+        Product product = listDashboardFrameBrowseProducts.getSelectedValue();
+        boolean isSuccess = UserController.getInstance().download(product.getId());
+        if (isSuccess){
+            JOptionPane.showMessageDialog(null, "Product has been downloaded");
+        }else {
+            JOptionPane.showMessageDialog(null, "Product doesn't have file!");
+        }
+    }//GEN-LAST:event_buttonDashboardFrameBrowseDownloadActionPerformed
 
     private void updateFrame(){
         User activeUser = AppCache.getInstance().getActiveUser();

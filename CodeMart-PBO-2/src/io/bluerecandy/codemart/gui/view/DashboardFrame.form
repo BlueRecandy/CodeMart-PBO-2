@@ -252,6 +252,9 @@
                 <Property name="text" type="java.lang.String" value="Download"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDashboardFrameBrowseDownloadActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="buttonDashboardFrameBrowsePurchase">
               <Properties>
