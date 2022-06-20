@@ -7,7 +7,6 @@ package io.bluerecandy.codemart.gui.view;
 
 import io.bluerecandy.codemart.gui.controller.AccountController;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
@@ -175,6 +174,11 @@ public class RegisterFrame extends javax.swing.JFrame {
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
+        
+        textFieldRegisterFrameName.setText("");
+        textFieldRegisterFrameEmail.setText("");
+        passwordFieldRegisterFramePassword.setText("");
+        passwordFieldRegisterFrameRetypePassword.setText("");
     }//GEN-LAST:event_buttonRegisterFrameRegisterActionPerformed
 
     private void buttonRegisterFrameBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterFrameBackActionPerformed

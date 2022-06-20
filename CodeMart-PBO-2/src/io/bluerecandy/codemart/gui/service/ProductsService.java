@@ -27,6 +27,10 @@ public class ProductsService {
 
     private final static String INSERT_PRODUCT_ALL = "INSERT INTO products(name, version, description, price, owner_id, file) VALUES (?,?,?, ?,?,?);";
     private final static String INSERT_PRODUCT_NO_FILE = "INSERT INTO products(name, version, description, price, owner_id) VALUES (?,?,?, ?,?);";
+    
+    private final static String UPDATE_PRODUCT_NAME = "UPDATE products SET name = ? WHERE id = ?;";
+    private final static String UPDATE_PRODUCT_DESCRIPTION = "UPDATE products SET description = ? WHERE id = ?;";
+    private final static String UPDATE_PRODUCT = "UPDATE products SET name = ?, description = ?, price = ? WHERE id = ?;";
 
     private ProductsService(){}
 
@@ -142,6 +146,14 @@ public class ProductsService {
             product.setName(newName);
 
             // TODO update product name to db
+            Connection connection = SQLConnector.getInstance().connect();
+            try{
+                PreparedStatement statement = connection.prepareStatement(UPDATE_PRODUCT_NAME);
+                statement.setString(1, newName);
+                statement.executeUpdate();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -151,9 +163,33 @@ public class ProductsService {
             product.setDescription(newDescription);
 
             // TODO update product description to db
+            Connection connection = SQLConnector.getInstance().connect();
+            try{
+                PreparedStatement statement = connection.prepareStatement(UPDATE_PRODUCT_DESCRIPTION);
+                statement.setString(1, newDescription);
+                statement.executeUpdate();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
+    public boolean updateProducts(int productId, String name, String desc, int price){
+        Connection connection = SQLConnector.getInstance().connect();
+        try{
+            PreparedStatement statement = connection.prepareStatement(UPDATE_PRODUCT);
+            statement.setString(1, name);
+            statement.setString(2, desc);
+            statement.setInt(3, price);
+            statement.setInt(4, productId);
+            statement.executeUpdate();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     private Product processProductResultSet(ResultSet rs) throws SQLException {
         Product product = new Product();
 
@@ -177,5 +213,4 @@ public class ProductsService {
 
         return product;
     }
-
 }

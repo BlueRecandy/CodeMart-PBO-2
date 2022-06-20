@@ -38,4 +38,11 @@ public class ProductController {
         return productsService.getAllProducts();
     }
 
+    public boolean updateProducts(int id, String name, String desc, int price){
+        boolean isSucces = productsService.updateProducts(id, name, desc, price);
+        if (isSucces){
+            return true;
+        }
+        return false;
+    }
 }
