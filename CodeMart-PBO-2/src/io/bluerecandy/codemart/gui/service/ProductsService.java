@@ -4,7 +4,9 @@ import io.bluerecandy.codemart.gui.model.Product;
 import io.bluerecandy.codemart.gui.model.User;
 import io.bluerecandy.codemart.gui.sql.SQLConnector;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class ProductsService {
 
     private final static String SELECT_PRODUCT_BY_OWNER = "SELECT * FROM products WHERE owner_id = ?;";
     private final static String SELECT_PRODUCT_BY_OWNER_AND_NAME = "SELECT * FROM products WHERE owner_id = ? AND name = ?;";
+    private final static String SELECT_PRODUCT_FILE = "SELECT name, version, file FROM products WHERE id = ?;";
 
     private final static String INSERT_PRODUCT_ALL = "INSERT INTO products(name, version, description, price, owner_id, file) VALUES (?,?,?, ?,?,?);";
     private final static String INSERT_PRODUCT_NO_FILE = "INSERT INTO products(name, version, description, price, owner_id) VALUES (?,?,?, ?,?);";
@@ -48,7 +51,7 @@ public class ProductsService {
             if (rs.next()){
                 found = processProductResultSet(rs);
             }
-        }catch (SQLException e){
+        }catch (SQLException | IOException e){
             e.printStackTrace();
         }
 
@@ -67,7 +70,7 @@ public class ProductsService {
             if (rs.next()){
                 return processProductResultSet(rs);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -86,7 +89,7 @@ public class ProductsService {
                 products.add(processProductResultSet(rs));
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
 
@@ -105,7 +108,7 @@ public class ProductsService {
                 products.add(processProductResultSet(rs));
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
 
@@ -131,12 +134,13 @@ public class ProductsService {
             statement.setInt(5, ownerId);
 
             if (hasSourceFile){
-                // TODO Register file stream blob
+                FileInputStream fis = new FileInputStream(file);
+                statement.setBinaryStream(6, fis, file.length());
             }
 
             statement.executeUpdate();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | FileNotFoundException e) {
             e.printStackTrace();
             return false;
         }
@@ -206,7 +210,43 @@ public class ProductsService {
         }
     }
     
-    private Product processProductResultSet(ResultSet rs) throws SQLException {
+    public File download(int productId){
+        File file = null;
+        Connection connect = SQLConnector.getInstance().connect();
+        try {
+            PreparedStatement statement = connect.prepareStatement(SELECT_PRODUCT_FILE);
+            statement.setInt(1, productId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Blob fileBlob = resultSet.getBlob(3);
+                if (fileBlob != null) {
+                    InputStream inputStream = fileBlob.getBinaryStream();
+                    String name = resultSet.getString(1);
+                    String version = resultSet.getString(2);
+                    String fileName = name + "-" + version + ".zip";
+
+                    file = new File(fileName);
+                    FileOutputStream outputStream = new FileOutputStream(file);
+
+                    byte[] buffer = new byte[1024];
+                    while (inputStream.read(buffer) > 0) {
+                        outputStream.write(buffer);
+                    }
+
+                    inputStream.close();
+                    outputStream.flush();
+                    outputStream.close();
+                }
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    private Product processProductResultSet(ResultSet rs) throws SQLException, IOException {
         Product product = new Product();
 
         int id = rs.getInt(1);
@@ -215,14 +255,12 @@ public class ProductsService {
         String description = rs.getString(4);
         int price = rs.getInt(5);
         int ownerId = rs.getInt(6);
-        Blob fileContent = rs.getBlob(7);
 
         product.setId(id);
         product.setName(name);
         product.setVersion(version);
         product.setDescription(description);
         product.setPrice(price);
-        // TODO set owner using User Model
 
         User user = UsersService.getInstance().getUserById(ownerId);
         product.setOwner(user);
