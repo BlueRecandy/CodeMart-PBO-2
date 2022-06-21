@@ -43,8 +43,8 @@ public class SQLInitialization {
             "\ttransaction_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,\n" +
             "    product_id INT NOT NULL,\n" +
             "    customer_id INT NOT NULL,\n" +
-            "    CONSTRAINT FK_purchased_products_products_id FOREIGN KEY(product_id) REFERENCES products(id),\n" +
-            "    CONSTRAINT FK_purchased_products_accounts_id FOREIGN KEY(customer_id) REFERENCES accounts(id)\n" +
+            "    CONSTRAINT FK_purchased_products_products_id FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE,\n" +
+            "    CONSTRAINT FK_purchased_products_accounts_id FOREIGN KEY(customer_id) REFERENCES accounts(id) ON DELETE CASCADE\n" +
             ");";
 
     private SQLInitialization(){}

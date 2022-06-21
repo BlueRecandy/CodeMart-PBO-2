@@ -30,6 +30,12 @@ public class UserController {
         productsService = ProductsService.getInstance();
     }
 
+    /**
+     * Get user object model by using its id
+     *
+     * @param id user's id
+     * @return user object
+     */
     public User getUserById(int id){
         User user = usersService.getUserById(id);
 
