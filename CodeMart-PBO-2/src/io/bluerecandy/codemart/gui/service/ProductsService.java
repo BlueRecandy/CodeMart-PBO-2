@@ -32,6 +32,8 @@ public class ProductsService {
     private final static String UPDATE_PRODUCT_DESCRIPTION = "UPDATE products SET description = ? WHERE id = ?;";
     private final static String UPDATE_PRODUCT = "UPDATE products SET name = ?, description = ?, price = ? WHERE id = ?;";
 
+    private final static String DELETE_PRODUCT = "DELETE FROM products WHERE id = ? AND name = ?;";
+            
     private ProductsService(){}
 
     public Product getProductById(int productId){
@@ -182,6 +184,20 @@ public class ProductsService {
             statement.setString(2, desc);
             statement.setInt(3, price);
             statement.setInt(4, productId);
+            statement.executeUpdate();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean deleteProducts(int id, String name){
+        Connection connection = SQLConnector.getInstance().connect();
+        try{
+            PreparedStatement statement = connection.prepareStatement(DELETE_PRODUCT);
+            statement.setInt(1, id);
+            statement.setString(2, name);
             statement.executeUpdate();
             return true;
         }catch(Exception e){

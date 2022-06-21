@@ -252,9 +252,19 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         buttonDashboardFrameYourProductsRemove.setText("Remove");
         buttonDashboardFrameYourProductsRemove.setEnabled(false);
+        buttonDashboardFrameYourProductsRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameYourProductsRemoveActionPerformed(evt);
+            }
+        });
 
         buttonDashboardFrameYourProductsCancel.setText("Cancel");
         buttonDashboardFrameYourProductsCancel.setEnabled(false);
+        buttonDashboardFrameYourProductsCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameYourProductsCancelActionPerformed(evt);
+            }
+        });
 
         labelDashboardFrameYourProductsTitle.setText("Title");
 
@@ -690,6 +700,36 @@ public class DashboardFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_buttonDashboardFrameYourProductsSaveActionPerformed
+
+    private void buttonDashboardFrameYourProductsCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsCancelActionPerformed
+        // TODO add your handling code here:
+        //cancel(textFieldDashboardFrameYourProductsTitle);
+        //textAreaDashboardFrameYourProductsDescription.getText();
+        //textFieldDashboardFrameYourProductsPrice.
+        //this.setVisible(false);
+    }//GEN-LAST:event_buttonDashboardFrameYourProductsCancelActionPerformed
+
+    private void buttonDashboardFrameYourProductsRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsRemoveActionPerformed
+        // TODO add your handling code here:
+        DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameYourProducts.getModel();
+        Product products = listDashboardFrameYourProducts.getSelectedValue();
+        int id = products.getId();
+        String name = textFieldDashboardFrameYourProductsTitle.getText();
+
+        try{
+            JOptionPane.showMessageDialog(null, "Are you sure to delete this product?"); 
+            boolean delete = ProductController.getInstance().deleteProducts(id, name);
+             if (delete){
+                JOptionPane.showMessageDialog(null, "Delete Success");            
+                model.removeElementAt(listDashboardFrameYourProducts.getSelectedIndex());  
+                textFieldDashboardFrameYourProductsTitle.setText("");
+                textAreaDashboardFrameYourProductsDescription.setText("");
+                textFieldDashboardFrameYourProductsPrice.setText("");
+            }          
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_buttonDashboardFrameYourProductsRemoveActionPerformed
 
     private void updateFrame(){
         User activeUser = AppCache.getInstance().getActiveUser();

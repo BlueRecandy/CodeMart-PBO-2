@@ -45,4 +45,12 @@ public class ProductController {
         }
         return false;
     }
+    
+    public boolean deleteProducts(int id, String name){
+        boolean isSucces = productsService.deleteProducts(id, name);
+        if (isSucces){
+            return true;
+        }
+        return false;
+    }
 }
