@@ -244,16 +244,36 @@ public class DashboardFrame extends javax.swing.JFrame {
         tabbedPaneDashboardFrame.addTab("Browse", panelDashboardFrameBrowse);
 
         listDashboardFrameYourProducts.setModel(new DefaultListModel());
+        listDashboardFrameYourProducts.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listDashboardFrameYourProductsValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(listDashboardFrameYourProducts);
 
         buttonDashboardFrameYourProductsSave.setText("Save");
         buttonDashboardFrameYourProductsSave.setEnabled(false);
+        buttonDashboardFrameYourProductsSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameYourProductsSaveActionPerformed(evt);
+            }
+        });
 
         buttonDashboardFrameYourProductsRemove.setText("Remove");
         buttonDashboardFrameYourProductsRemove.setEnabled(false);
+        buttonDashboardFrameYourProductsRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameYourProductsRemoveActionPerformed(evt);
+            }
+        });
 
         buttonDashboardFrameYourProductsCancel.setText("Cancel");
         buttonDashboardFrameYourProductsCancel.setEnabled(false);
+        buttonDashboardFrameYourProductsCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDashboardFrameYourProductsCancelActionPerformed(evt);
+            }
+        });
 
         labelDashboardFrameYourProductsTitle.setText("Title");
 
@@ -502,9 +522,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Product Browse
         List<Product> products = ProductController.getInstance().getAllProducts();
-
         DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameBrowseProducts.getModel();
-        model.addAll(products);
+        for(int i = 0;i < products.size(); i++){
+            Product hasil = products.get(i);
+            model.addElement(hasil);
+        }
 
         // Account
         User activeUser = AppCache.getInstance().getActiveUser();
@@ -514,7 +536,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         model = (DefaultListModel<Product>) listDashboardFrameYourProducts.getModel();
         List<Product> ownedProducts = products.stream()
                 .filter(product -> product.getOwner().getId() == activeUser.getId()).collect(Collectors.toList());
-        model.addAll(ownedProducts);
+        for(int i = 0;i < ownedProducts.size(); i++){
+            Product hasil = ownedProducts.get(i);
+            model.addElement(hasil);
+        }    
     }//GEN-LAST:event_formWindowOpened
 
     private void buttonDashboardFrameAccountLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameAccountLogoutActionPerformed
@@ -663,9 +688,76 @@ public class DashboardFrame extends javax.swing.JFrame {
                 updateFrame();
             }
         }
-
     }//GEN-LAST:event_buttonDashboardFrameBrowsePurchaseActionPerformed
 
+    private void listDashboardFrameYourProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listDashboardFrameYourProductsValueChanged
+        // TODO add your handling code here:
+        Product product = listDashboardFrameYourProducts.getSelectedValue();
+        if (product != null){
+            textFieldDashboardFrameYourProductsTitle.setText(product.getName());
+            textAreaDashboardFrameYourProductsDescription.setText(product.getDescription());
+            textFieldDashboardFrameYourProductsPrice.setText(String.valueOf(product.getPrice()));
+            
+            textFieldDashboardFrameYourProductsTitle.setEnabled(true);
+            textAreaDashboardFrameYourProductsDescription.setEnabled(true);
+            textFieldDashboardFrameYourProductsPrice.setEnabled(true);
+            
+            buttonDashboardFrameYourProductsSave.setEnabled(true);
+            buttonDashboardFrameYourProductsCancel.setEnabled(true);
+            buttonDashboardFrameYourProductsRemove.setEnabled(true);
+        }
+    }//GEN-LAST:event_listDashboardFrameYourProductsValueChanged
+  
+    private void buttonDashboardFrameYourProductsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsSaveActionPerformed
+        // TODO add your handling code here:
+        Product product = listDashboardFrameYourProducts.getSelectedValue();
+        int id = product.getId();
+        String name = textFieldDashboardFrameYourProductsTitle.getText();
+        String desc = textAreaDashboardFrameYourProductsDescription.getText();
+        int price = Integer.parseInt(textFieldDashboardFrameYourProductsPrice.getText());
+        
+        try{
+            boolean update = ProductController.getInstance().updateProducts(id, name, desc, price);
+             if (update){
+                JOptionPane.showMessageDialog(null, "Update Success");            
+                product.setName(name);
+                product.setDescription(desc);
+                product.setPrice(price);
+            }          
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_buttonDashboardFrameYourProductsSaveActionPerformed
+
+    private void buttonDashboardFrameYourProductsCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsCancelActionPerformed
+        // TODO add your handling code here:
+        Product product = listDashboardFrameYourProducts.getSelectedValue();
+        textFieldDashboardFrameYourProductsTitle.setText(product.getName());
+        textAreaDashboardFrameYourProductsDescription.setText(product.getDescription());
+        textFieldDashboardFrameYourProductsPrice.setText(String.valueOf(product.getPrice()));
+    }//GEN-LAST:event_buttonDashboardFrameYourProductsCancelActionPerformed
+
+    private void buttonDashboardFrameYourProductsRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsRemoveActionPerformed
+        // TODO add your handling code here:
+        DefaultListModel<Product> model = (DefaultListModel<Product>) listDashboardFrameYourProducts.getModel();
+        Product products = listDashboardFrameYourProducts.getSelectedValue();
+        int id = products.getId();
+        String name = textFieldDashboardFrameYourProductsTitle.getText();
+
+        try{
+            JOptionPane.showMessageDialog(null, "Are you sure to delete this product?"); 
+            boolean delete = ProductController.getInstance().deleteProducts(id, name);
+             if (delete){
+                JOptionPane.showMessageDialog(null, "Delete Success");            
+                model.removeElementAt(listDashboardFrameYourProducts.getSelectedIndex());  
+                textFieldDashboardFrameYourProductsTitle.setText("");
+                textAreaDashboardFrameYourProductsDescription.setText("");
+                textFieldDashboardFrameYourProductsPrice.setText("");
+            }          
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_buttonDashboardFrameYourProductsRemoveActionPerformed
     private void buttonDashboardFrameUploadProductSelectFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameUploadProductSelectFileActionPerformed
         // TODO add your handling code here:
         int chooseAction = fileChooserDashboardFrameUploadProduct.showOpenDialog(this);
