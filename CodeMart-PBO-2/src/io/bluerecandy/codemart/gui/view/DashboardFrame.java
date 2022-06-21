@@ -703,10 +703,10 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     private void buttonDashboardFrameYourProductsCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsCancelActionPerformed
         // TODO add your handling code here:
-        //cancel(textFieldDashboardFrameYourProductsTitle);
-        //textAreaDashboardFrameYourProductsDescription.getText();
-        //textFieldDashboardFrameYourProductsPrice.
-        //this.setVisible(false);
+        Product product = listDashboardFrameYourProducts.getSelectedValue();
+        textFieldDashboardFrameYourProductsTitle.setText(product.getName());
+        textAreaDashboardFrameYourProductsDescription.setText(product.getDescription());
+        textFieldDashboardFrameYourProductsPrice.setText(String.valueOf(product.getPrice()));
     }//GEN-LAST:event_buttonDashboardFrameYourProductsCancelActionPerformed
 
     private void buttonDashboardFrameYourProductsRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDashboardFrameYourProductsRemoveActionPerformed
